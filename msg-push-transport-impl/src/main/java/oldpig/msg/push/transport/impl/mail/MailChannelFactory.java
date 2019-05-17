@@ -9,6 +9,7 @@ import oldpig.msg.push.transport.core.ChannelFactory;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import java.util.Map;
 import java.util.Properties;
 
 public class MailChannelFactory implements ChannelFactory {
@@ -23,8 +24,6 @@ public class MailChannelFactory implements ChannelFactory {
 
         Properties prop = new Properties();
 
-
-
         prop.setProperty("mail.transport.protocol", "smtp");
         prop.setProperty("mail.smtp.auth", "true");
         prop.setProperty("mail.smtp.ssl.enable", "true");
@@ -34,6 +33,15 @@ public class MailChannelFactory implements ChannelFactory {
 
         prop.setProperty("mail.host", config.getHost());
         prop.setProperty("mail.smtp.port",config.getPort());
+
+
+        if(config.getExtInfo() != null){
+            Map<String,String> ext = config.getExtInfo();
+            if(ext.get("useSSL") != null ){
+                prop.setProperty("mail.smtp.ssl.enable",ext.get("useSSL"));
+            }
+        }
+
 
 
         Session session = Session.getInstance(prop, new Authenticator() {

@@ -20,11 +20,15 @@ public class Test1 {
                 config.setChannelId("mail");
                 config.setChannelName("邮件");
                 config.setDriverClass("oldpig.msg.push.transport.impl.mail.MailChannelFactory");
-                config.setHost("smtp.exmail.qq.com");
-                config.setPort("465");
-                config.setUser("zwd@legion-tech.net");
-                config.setPassword("Abc123Abc");
+                config.setHost("xxx");
+                config.setPort("25");
+                config.setUser("xx");
+                config.setPassword("xx");
                 config.setIsOpen("Y");
+                Map<String,String> ext = new HashMap<>();
+                ext.put("useSSL","false");
+                ext.put("sendFrom","xx");
+                config.setExtInfo(ext);
 
 
                 return Arrays.asList(config);
