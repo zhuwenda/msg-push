@@ -24,14 +24,19 @@ public class MsgPushCenterImpl implements MsgPushCenter {
         this.configurationGetter = configurationGetter;
     }
 
-    public EventPushResult push(String userId, String eventId, Map<String,Object> tplVars) {
+    public EventPushResult push(String eventId, String userId, Map<String,Object> tplVars) {
 
         //获取用户在某个事件上配置的通道
         Set<String> userChannelIds = configurationGetter.getUserChannelIdInEvent(userId,eventId);
 
         //获取全局事件配置
         List<EventConfig> eventConfigs = configurationGetter.getGlobalEventConfigs();
-        EventConfig eventConfig = eventConfigs.stream().filter(e->e.getEventId().equals(eventId)).findAny().get();;
+        Optional<EventConfig> optional = eventConfigs.stream().filter(e->e.getEventId().equals(eventId)).findAny();
+        if(!optional.isPresent()){
+            throw new IllegalStateException("找不到事件配置信息，eventId："+eventId);
+        }
+
+        EventConfig eventConfig = optional.get();;
 
         //---- 基础校验 -----
         if(eventConfig == null){
@@ -116,6 +121,10 @@ public class MsgPushCenterImpl implements MsgPushCenter {
                 Msg msg = new Msg();
                 msg.setTitle(title);
                 msg.setContent(content);
+                Map<String,Object> header = new HashMap<>();
+                header.put("meta_event_id",eventConfig.getEventId());
+                header.put("meta_event_name",eventConfig.getEventName());
+                msg.setHeader(header);
 
                 String to = configurationGetter.getUserIdInChannel(userId,c.getChannelId());
                 msg.setTo(to);

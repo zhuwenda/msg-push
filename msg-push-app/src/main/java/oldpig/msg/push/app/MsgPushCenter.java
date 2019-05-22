@@ -9,6 +9,6 @@ public interface MsgPushCenter {
 
     void setConfigurationGetter(ConfigurationGetter configurationGetter);
 
-    EventPushResult push(String userId, String eventId, Map<String,Object> context);
+    EventPushResult push(String eventId, String userId,  Map<String,Object> context);
 
 }
