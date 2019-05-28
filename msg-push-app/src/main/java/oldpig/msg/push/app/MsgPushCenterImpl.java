@@ -24,7 +24,8 @@ public class MsgPushCenterImpl implements MsgPushCenter {
         this.configurationGetter = configurationGetter;
     }
 
-    public EventPushResult push(String eventId, String userId, Map<String,Object> tplVars) {
+
+    public EventPushResult push(String userId, String eventId, Map<String,Object> tplVars) {
 
         //获取用户在某个事件上配置的通道
         Set<String> userChannelIds = configurationGetter.getUserChannelIdInEvent(userId,eventId);

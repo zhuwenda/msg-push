@@ -69,7 +69,7 @@ public class Test1 {
 
         Map<String,Object> param = new HashMap<>();
         param.put("name","hello");
-        pushCenter.push("1","test",param);
+        pushCenter.push("test","1",param);
     }
 
 
